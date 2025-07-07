@@ -3,67 +3,443 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wedding system</title>
+    <title>शुभ विवाह - Wedding Planning System</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
             <a href="#" class="logo">
-                <span class="logo-icon"></span>
+                <i class="fas fa-heart logo-icon"></i>
                 <span>शुभ विवाह</span>
             </a>
 
             <div class="hamburger">
                 <span></span>
-                <span>76foiyuployhoi[</span>
-                <span> fdhsgfkmfjv</span>
+                <span></span>
                 <span></span>
             </div>
 
             <ul class="nav-links">
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a href="#" class="nav-link">Location</a>
-                    <div class="dropdown-content">
-                        <a href="#" class="dropdown-link">Butwal</a>
-                        <a href="#" class="dropdown-link">Kaplivastu</a>
-                    </div>
+                    <a href="#dashboard" class="nav-link">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">About</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a href="#" class="nav-link">Resources</a>
-                    <div class="dropdown-content">
-                        <a href="#" class="dropdown-link">Documentation</a>
-                        <a href="#" class="dropdown-link">Tutorials</a>
-                        <a href="#" class="dropdown-link">Blog</a>
-                        <a href="#" class="dropdown-link">Community</a>
-                    </div>
+                    <a href="#guests" class="nav-link">
+                        <i class="fas fa-users"></i> Guests
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Contact</a>
+                    <a href="#budget" class="nav-link">
+                        <i class="fas fa-dollar-sign"></i> Budget
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <button class="cta-button">Log In</button>
-                    <button class="cta-button">Sign Up</button>
+                    <a href="#vendors" class="nav-link">
+                        <i class="fas fa-store"></i> Vendors
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#tasks" class="nav-link">
+                        <i class="fas fa-tasks"></i> Tasks
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#timeline" class="nav-link">
+                        <i class="fas fa-calendar"></i> Timeline
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <button class="cta-button" onclick="exportData()">
+                        <i class="fas fa-download"></i> Export
+                    </button>
                 </li>
             </ul>
         </div>
     </nav>
-    <section class="search-section">
-    <h1>शुभ विवाह</h1>
-    <p>We provide solutions to help your business grow.</p>
-    <input type="text" class="search-input" placeholder="Stage, Photoshot" aria-label="Search">
-    <button class="search-button" type="submit" aria-label="Search">
-        <span class="search-icon"></span>
-        <span>Search</span>
-    </button>
-</section>
 
+    <!-- Hero Section -->
+    <section class="hero-section" id="dashboard">
+        <div class="hero-content">
+            <h1>शुभ विवाह</h1>
+            <p>Your Complete Wedding Planning Solution</p>
+            <div class="wedding-countdown">
+                <div class="countdown-item">
+                    <span id="days">0</span>
+                    <label>Days</label>
+                </div>
+                <div class="countdown-item">
+                    <span id="hours">0</span>
+                    <label>Hours</label>
+                </div>
+                <div class="countdown-item">
+                    <span id="minutes">0</span>
+                    <label>Minutes</label>
+                </div>
+                <div class="countdown-item">
+                    <span id="seconds">0</span>
+                    <label>Seconds</label>
+                </div>
+            </div>
+            <div class="wedding-details-form">
+                <h3>Wedding Details</h3>
+                <div class="form-row">
+                    <input type="text" id="brideGroom" placeholder="Bride & Groom Names" />
+                    <input type="date" id="weddingDate" />
+                    <input type="text" id="venue" placeholder="Venue" />
+                </div>
+                <button onclick="saveWeddingDetails()">Save Details</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="quick-stats">
+        <div class="container">
+            <div class="stat-card">
+                <i class="fas fa-users"></i>
+                <div class="stat-info">
+                    <h3 id="totalGuests">0</h3>
+                    <p>Total Guests</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-check-circle"></i>
+                <div class="stat-info">
+                    <h3 id="confirmedRsvp">0</h3>
+                    <p>Confirmed RSVP</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-dollar-sign"></i>
+                <div class="stat-info">
+                    <h3 id="totalBudget">$0</h3>
+                    <p>Total Budget</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-tasks"></i>
+                <div class="stat-info">
+                    <h3 id="completedTasks">0</h3>
+                    <p>Tasks Completed</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Guest Management Section -->
+    <section id="guests" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-users"></i> Guest Management</h2>
+                <button class="add-btn" onclick="toggleGuestForm()">
+                    <i class="fas fa-plus"></i> Add Guest
+                </button>
+            </div>
+            
+            <div class="guest-form" id="guestForm" style="display: none;">
+                <h3>Add New Guest</h3>
+                <div class="form-row">
+                    <input type="text" id="guestName" placeholder="Guest Name" required />
+                    <input type="email" id="guestEmail" placeholder="Email" />
+                    <input type="tel" id="guestPhone" placeholder="Phone" />
+                    <select id="guestCategory">
+                        <option value="family">Family</option>
+                        <option value="friends">Friends</option>
+                        <option value="colleagues">Colleagues</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <select id="rsvpStatus">
+                        <option value="pending">Pending</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="declined">Declined</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button onclick="addGuest()">Add Guest</button>
+                    <button onclick="toggleGuestForm()" class="cancel-btn">Cancel</button>
+                </div>
+            </div>
+
+            <div class="guest-list">
+                <div class="guest-filters">
+                    <input type="text" id="guestSearch" placeholder="Search guests..." onkeyup="filterGuests()" />
+                    <select id="categoryFilter" onchange="filterGuests()">
+                        <option value="">All Categories</option>
+                        <option value="family">Family</option>
+                        <option value="friends">Friends</option>
+                        <option value="colleagues">Colleagues</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <select id="rsvpFilter" onchange="filterGuests()">
+                        <option value="">All RSVP Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="declined">Declined</option>
+                    </select>
+                </div>
+                <div id="guestTable" class="data-table">
+                    <!-- Guest data will be populated here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Budget Management Section -->
+    <section id="budget" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-dollar-sign"></i> Budget Management</h2>
+                <button class="add-btn" onclick="toggleBudgetForm()">
+                    <i class="fas fa-plus"></i> Add Expense
+                </button>
+            </div>
+
+            <div class="budget-overview">
+                <div class="budget-card">
+                    <h3>Total Budget</h3>
+                    <input type="number" id="totalBudgetInput" placeholder="Enter total budget" onchange="updateTotalBudget()" />
+                </div>
+                <div class="budget-card">
+                    <h3>Spent</h3>
+                    <span id="totalSpent">$0</span>
+                </div>
+                <div class="budget-card">
+                    <h3>Remaining</h3>
+                    <span id="remainingBudget">$0</span>
+                </div>
+            </div>
+
+            <div class="budget-form" id="budgetForm" style="display: none;">
+                <h3>Add Expense</h3>
+                <div class="form-row">
+                    <input type="text" id="expenseCategory" placeholder="Category (e.g., Venue, Catering)" required />
+                    <input type="text" id="expenseDescription" placeholder="Description" />
+                    <input type="number" id="expenseAmount" placeholder="Amount" required />
+                    <input type="date" id="expenseDate" />
+                </div>
+                <div class="form-actions">
+                    <button onclick="addExpense()">Add Expense</button>
+                    <button onclick="toggleBudgetForm()" class="cancel-btn">Cancel</button>
+                </div>
+            </div>
+
+            <div id="budgetChart" class="chart-container">
+                <canvas id="budgetPieChart"></canvas>
+            </div>
+
+            <div id="expenseTable" class="data-table">
+                <!-- Expense data will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Vendor Management Section -->
+    <section id="vendors" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-store"></i> Vendor Management</h2>
+                <button class="add-btn" onclick="toggleVendorForm()">
+                    <i class="fas fa-plus"></i> Add Vendor
+                </button>
+            </div>
+            
+            <div class="vendor-form" id="vendorForm" style="display: none;">
+                <h3>Add New Vendor</h3>
+                <div class="form-row">
+                    <input type="text" id="vendorName" placeholder="Vendor Name" required />
+                    <select id="vendorCategory">
+                        <option value="venue">Venue</option>
+                        <option value="catering">Catering</option>
+                        <option value="photography">Photography</option>
+                        <option value="flowers">Flowers</option>
+                        <option value="music">Music/DJ</option>
+                        <option value="transport">Transportation</option>
+                        <option value="decoration">Decoration</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <input type="tel" id="vendorContact" placeholder="Contact Number" />
+                    <input type="email" id="vendorEmail" placeholder="Email" />
+                </div>
+                <div class="form-row">
+                    <input type="number" id="vendorCost" placeholder="Cost" />
+                    <select id="vendorStatus">
+                        <option value="contacted">Contacted</option>
+                        <option value="quoted">Quoted</option>
+                        <option value="booked">Booked</option>
+                        <option value="paid">Paid</option>
+                    </select>
+                    <textarea id="vendorNotes" placeholder="Notes"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button onclick="addVendor()">Add Vendor</button>
+                    <button onclick="toggleVendorForm()" class="cancel-btn">Cancel</button>
+                </div>
+            </div>
+
+            <div id="vendorTable" class="data-table">
+                <!-- Vendor data will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Task Management Section -->
+    <section id="tasks" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-tasks"></i> Task Management</h2>
+                <button class="add-btn" onclick="toggleTaskForm()">
+                    <i class="fas fa-plus"></i> Add Task
+                </button>
+            </div>
+            
+            <div class="task-form" id="taskForm" style="display: none;">
+                <h3>Add New Task</h3>
+                <div class="form-row">
+                    <input type="text" id="taskTitle" placeholder="Task Title" required />
+                    <select id="taskPriority">
+                        <option value="low">Low Priority</option>
+                        <option value="medium">Medium Priority</option>
+                        <option value="high">High Priority</option>
+                    </select>
+                    <input type="date" id="taskDueDate" />
+                    <select id="taskCategory">
+                        <option value="venue">Venue</option>
+                        <option value="catering">Catering</option>
+                        <option value="photography">Photography</option>
+                        <option value="flowers">Flowers</option>
+                        <option value="music">Music</option>
+                        <option value="invitations">Invitations</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <textarea id="taskDescription" placeholder="Task Description"></textarea>
+                <div class="form-actions">
+                    <button onclick="addTask()">Add Task</button>
+                    <button onclick="toggleTaskForm()" class="cancel-btn">Cancel</button>
+                </div>
+            </div>
+
+            <div class="task-filters">
+                <select id="taskStatusFilter" onchange="filterTasks()">
+                    <option value="">All Tasks</option>
+                    <option value="pending">Pending</option>
+                    <option value="completed">Completed</option>
+                </select>
+                <select id="taskPriorityFilter" onchange="filterTasks()">
+                    <option value="">All Priorities</option>
+                    <option value="high">High Priority</option>
+                    <option value="medium">Medium Priority</option>
+                    <option value="low">Low Priority</option>
+                </select>
+            </div>
+
+            <div id="taskBoard" class="task-board">
+                <div class="task-column">
+                    <h3>Pending Tasks</h3>
+                    <div id="pendingTasks" class="task-list"></div>
+                </div>
+                <div class="task-column">
+                    <h3>Completed Tasks</h3>
+                    <div id="completedTasks" class="task-list"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="timeline" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-calendar"></i> Wedding Timeline</h2>
+            </div>
+            
+            <div class="timeline-container">
+                <div class="timeline-item" data-months="12">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>12 Months Before</h3>
+                        <ul>
+                            <li>Set wedding date</li>
+                            <li>Create guest list</li>
+                            <li>Set budget</li>
+                            <li>Book venue</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" data-months="9">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>9 Months Before</h3>
+                        <ul>
+                            <li>Book caterer</li>
+                            <li>Choose photographer</li>
+                            <li>Order wedding dress</li>
+                            <li>Book entertainment</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" data-months="6">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>6 Months Before</h3>
+                        <ul>
+                            <li>Send invitations</li>
+                            <li>Book transportation</li>
+                            <li>Order flowers</li>
+                            <li>Plan honeymoon</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" data-months="3">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>3 Months Before</h3>
+                        <ul>
+                            <li>Final guest count</li>
+                            <li>Menu tasting</li>
+                            <li>Final dress fitting</li>
+                            <li>Order wedding cake</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" data-months="1">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>1 Month Before</h3>
+                        <ul>
+                            <li>Confirm all vendors</li>
+                            <li>Create seating chart</li>
+                            <li>Pack for honeymoon</li>
+                            <li>Final venue walkthrough</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" data-months="0">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>Wedding Day</h3>
+                        <ul>
+                            <li>Relax and enjoy!</li>
+                            <li>Trust your vendors</li>
+                            <li>Have a backup plan</li>
+                            <li>Celebrate your love</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script .js"></script>
 </body>
 </html>
